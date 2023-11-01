@@ -1,7 +1,7 @@
 const FishesLeft = () => {
   return (
     <svg
-      className="animate-fishes-left-anim absolute -right-[20%] top-1/2 opacity-50 mix-blend-overlay"
+      className="absolute -right-1/2 top-1/2 animate-fishes-left-anim opacity-50 mix-blend-overlay"
       width={200}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 450 240"
