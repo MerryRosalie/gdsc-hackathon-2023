@@ -8,7 +8,7 @@ import noise from "assets/noise.png";
 
 const Background = () => {
   return (
-    <div className="absolute min-h-full min-w-full">
+    <div className="absolute -z-10 min-h-screen min-w-full">
       <Sparkles />
       <Bubbles />
       <Corals />
