@@ -1,8 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useRef, useState } from "react";
-import { PhoneIcon, VideoCameraIcon } from "@heroicons/react/24/outline";
-import { DbContext } from "~/app/context/FirebaseContext";
+import { DbContext } from "~/app/layout";
 
 export default function Video() {
   const pcRef = useRef<RTCPeerConnection | null>(null);
@@ -12,7 +11,7 @@ export default function Video() {
   const remoteVideo = useRef<HTMLVideoElement | null>(null);
   const db = useContext(DbContext);
 
-  useEffect(async () => {
+  useEffect(() => {
     pcRef.current = new RTCPeerConnection({
       iceServers: [
         {
@@ -24,8 +23,6 @@ export default function Video() {
       ],
       iceCandidatePoolSize: 10,
     });
-    const media = await navigator.mediaDevices.getUserMedia(constraints);
-    localStream.current.srcObject = media;
   }, []);
 
   return (

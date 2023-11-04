@@ -48,10 +48,11 @@ export default function Bubbles() {
   );
   return (
     <div className="absolute min-h-full min-w-full">
-      {bubbles.map((bubble) => (
+      {bubbles.map((bubble, index) => (
         <div
+          key={index}
           style={bubble.style}
-          className="animate-bubbles-anim absolute -bottom-[20%] rounded-full border border-white bg-white/40"
+          className="absolute -bottom-[20%] animate-bubbles-anim rounded-full border border-white bg-white/40"
         ></div>
       ))}
     </div>

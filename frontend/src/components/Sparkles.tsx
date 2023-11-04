@@ -49,12 +49,13 @@ const Sparkles = () => {
   return (
     <div className="absolute min-h-full min-w-full">
       {/* Sparkles */}
-      {sparkles.map((sparkle) => (
+      {sparkles.map((sparkle, index) => (
         <svg
+          key={index}
           width={sparkle.size}
           height={sparkle.size}
           style={sparkle.style}
-          className="animate-sparkle-anim absolute"
+          className="absolute animate-sparkle-anim"
           viewBox="0 0 160 160"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
