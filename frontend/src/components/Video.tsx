@@ -12,7 +12,7 @@ export default function Video() {
   const remoteVideo = useRef<HTMLVideoElement | null>(null);
   const db = useContext(DbContext);
 
-  useEffect(() => {
+  useEffect(async () => {
     pcRef.current = new RTCPeerConnection({
       iceServers: [
         {
@@ -24,6 +24,8 @@ export default function Video() {
       ],
       iceCandidatePoolSize: 10,
     });
+    const media = await navigator.mediaDevices.getUserMedia(constraints);
+    localStream.current.srcObject = media;
   }, []);
 
   return (

@@ -3,7 +3,7 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { AppContext, DbContext, app, db } from "./context/FirebaseContext";
+import { AppContext, DbContext, app, db } from "~/context/FirebaseContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ export default function RootLayout({
     <AppContext.Provider value={app}>
       <DbContext.Provider value={db}>
         <html lang="en">
-          <body className={`font-sans ${inter.variable}`}>{children}</body>
+          <body className={`font-sans ${inter.variable} overflow-hidden`}>{children}</body>
         </html>
       </DbContext.Provider>
     </AppContext.Provider>
