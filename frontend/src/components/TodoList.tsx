@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 
 type todoItem = {
@@ -9,8 +10,6 @@ type todoItem = {
 
 export default function TodoList() {
   const [todos, setTodos] = useState<todoItem[]>([]);
-  const [active, setActive] = useState(false);
-  // const [doneTodos, setDoneTodos] = useState<todoItem[]>([]);
 
   const addTodos = () => {
     let newTodos = [...todos];
@@ -58,11 +57,6 @@ export default function TodoList() {
     setTodos(newTodos);
   };
 
-  const hideElement = () => {
-    active ? setActive(false) : setActive(true);
-    console.log(active);
-  };
-
   useEffect(() => {
     setTodos([
       {
@@ -75,39 +69,30 @@ export default function TodoList() {
 
   return (
     <div>
-      <button className="bg-white" onClick={hideElement}>
-        Tasks
-      </button>
-      <div
-        className="absolute left-1/2 top-1/2 h-2/4 w-2/4 -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-white"
-        style={{
-          display: active ? "block" : "none",
-        }}
-      >
-        <h1 className="text-center text-2xl">Task List</h1>
-        <button className="bg-teal-400" onClick={addTodos}>
-          Create New Task
-        </button>
+      <div className="absolute right-0 top-0 h-1/3 w-80 space-y-6 overflow-y-auto rounded-lg p-6 text-white">
+        <div className="flex justify-between">
+          <h1 className="text-xl font-bold">To-do List</h1>
+          <button onClick={addTodos}>+ Create New Task</button>
+        </div>
 
-        <div className="todo">
+        <div className="todo space-y-2">
           {todos.map((item: todoItem) => (
-            <div className="textBox border-4 border-double border-indigo-600">
+            <div className="textBox flex gap-2">
+              <input
+                type="checkbox"
+                onChange={(e: any) => changeHandler(item.id, "checkbox", e)}
+              ></input>
               <input
                 type="text"
-                // value={item.text}
                 onChange={(e: any) => changeHandler(item.id, "boxtext", e)}
                 placeholder="Enter Task"
                 style={{
                   textDecorationLine: item.completed ? "line-through" : "none",
                 }}
-                className="w-10/12"
-              ></input>
-              <input
-                type="checkbox"
-                onChange={(e: any) => changeHandler(item.id, "checkbox", e)}
+                className="w-full border-none bg-transparent outline-none"
               ></input>
               <button
-                className="ml-2 w-5 bg-red-400"
+                className="ml-2 h-6 w-6 rounded-md bg-red-400"
                 onClick={() => deleteTodos(item.id)}
               >
                 X

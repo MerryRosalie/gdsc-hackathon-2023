@@ -1,164 +1,148 @@
 "use client";
-import { useContext } from "react";
+
 import Background from "~/components/Background";
 import TodoList from "~/components/TodoList";
 import Note from "~/components/Note";
 
-import React, { useEffect, useRef, useState } from "react";
-import Alarm from "../components/Alarm";
-import ModalSetting from "../components/ModalSetting";
-import Navigation from "../components/Navigation";
-import Timer from "../components/Timer";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import Sidebar from "~/components/Sidebar";
+import {
+  CameraIcon,
+  ClockIcon,
+  DocumentTextIcon,
+  PencilIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
+import Pomodoro from "~/components/PomodoroTimer";
+import Gacha from "~/components/Gacha";
+import { StaticImageData } from "next/image";
+
+export type SidebarData = {
+  name: string;
+  value: boolean;
+  callback: Dispatch<SetStateAction<boolean>>;
+  icon: ReactNode;
+};
 
 export default function HomePage() {
+  const defaultText =
+    "Every 1 minute, a coin is incremented once. These coins can be used to gacha (which costs 5 coins). Refreshes reset this.";
+  const [coins, setCoins] = useState(0);
+  const [text, setText] = useState(defaultText);
+  const [animals, setAnimals] = useState<StaticImageData[]>([]);
+  const [timerActive, setTimerActive] = useState<boolean>(false);
+  const [todolistActive, setTodolistActive] = useState<boolean>(false);
+  const [notesActive, setNotesActive] = useState<boolean>(false);
+  const [webcamActive, setWebcamActive] = useState<boolean>(false);
+  const [gachaActive, setGachaActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCoins((prev) => prev + 1);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const datas: SidebarData[] = [
+    {
+      name: "Timer",
+      value: timerActive,
+      callback: setTimerActive,
+      icon: (
+        <ClockIcon
+          className={`h-10 w-10 ${
+            timerActive ? "text-purple-300" : "text-white"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "To-do",
+      value: todolistActive,
+      callback: setTodolistActive,
+      icon: (
+        <DocumentTextIcon
+          className={`h-10 w-10 ${
+            todolistActive ? "text-purple-300" : "text-white"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Note",
+      value: notesActive,
+      callback: setNotesActive,
+      icon: (
+        <PencilIcon
+          className={`h-10 w-10 ${
+            notesActive ? "text-purple-300" : "text-white"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Webcam",
+      value: webcamActive,
+      callback: setWebcamActive,
+      icon: (
+        <CameraIcon
+          className={`h-10 w-10 ${
+            webcamActive ? "text-purple-300" : "text-white"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Gacha",
+      value: gachaActive,
+      callback: () => showGacha(),
+      icon: (
+        <SparklesIcon
+          className={`h-10 w-10 ${
+            gachaActive ? "text-purple-300" : "text-white"
+          }`}
+        />
+      ),
+    },
+  ];
+
+  const showGacha = () => {
+    if (coins < 5) {
+      setText("Not enough coins");
+      const timeout = setTimeout(() => setText(defaultText), 3000);
+      return () => clearTimeout(timeout);
+    }
+    setCoins((prev) => prev - 5);
+    setGachaActive((prev) => !prev);
+  };
+
   return (
     <main className="min-w-screen relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-[#5155c1] to-[#041d56]">
       {/* Background materials */}
-      <div className="flex flex-row space-x-2">
-        <TodoList />
-        <Note />
+      <Sidebar datas={datas} />
+      {gachaActive ? (
+        <Gacha
+          gachaActive={gachaActive}
+          setGachaActive={setGachaActive}
+          setAnimals={setAnimals}
+        ></Gacha>
+      ) : (
+        <></>
+      )}
+      {todolistActive ? <TodoList /> : <></>}
+      {notesActive ? <Note /> : <></>}
+      {timerActive ? <Pomodoro /> : <></>}
+      <div className="absolute bottom-4 left-4 space-y-2 text-4xl font-bold text-white">
+        <p>🪙 {coins} coins</p>
+        <p className="w-3/4 text-sm font-normal text-white/50">{text}</p>
       </div>
-      <Background />
+      <Background animals={animals} />
     </main>
   );
-}
-
-
-export function Pomodoro() {
-	const [pomodoro, setPomodoro] = useState(25);
-	const [shortBreak, setShortBreak] = useState(5);
-	const [longBreak, setLongBreak] = useState(10);
-	const [seconds, setSecond] = useState(0);
-	const [stage, setStage] = useState(0);
-	const [consumedSecond, setConsumedSecond] = useState(0);
-	const [ticking, setTicking] = useState(false);
-	const [isTimeUp, setIsTimeUp] = useState(false);
-	const [openSetting, setOpenSetting] = useState(false);
-
-	const alarmRef = useRef();
-	const pomodoroRef = useRef();
-	const shortBreakRef = useRef();
-	const longBreakRef = useRef();
-
-	const updateTimeDefaultValue = () => {
-		setPomodoro(pomodoroRef.current.value);
-		setShortBreak(shortBreakRef.current.value);
-		setLongBreak(longBreakRef.current.value);
-		setOpenSetting(false);
-		setSecond(0);
-		setConsumedSecond(0);
-	};
-
-	const switchStage = (index) => {
-		const isYes =
-			consumedSecond && stage !== index
-				? confirm("Are you sure you want to switch?")
-				: false;
-		if (isYes) {
-			reset();
-			setStage(index);
-		} else if (!consumedSecond) {
-			setStage(index);
-		}
-	};
-
-	const getTickingTime = () => {
-		const timeStage = {
-			0: pomodoro,
-			1: shortBreak,
-			2: longBreak,
-		};
-		return timeStage[stage];
-	};
-	const updateMinute = () => {
-		const updateStage = {
-			0: setPomodoro,
-			1: setShortBreak,
-			2: setLongBreak,
-		};
-		return updateStage[stage];
-	};
-
-	const reset = () => {
-		setConsumedSecond(0);
-		setTicking(false);
-		setSecond(0);
-		updateTimeDefaultValue();
-	};
-
-	const timeUp = () => {
-		reset();
-		setIsTimeUp(true);
-		alarmRef.current.play();
-	};
-
-	const clockTicking = () => {
-		const minutes = getTickingTime();
-		const setMinutes = updateMinute();
-
-		if (minutes === 0 && seconds === 0) {
-			timeUp();
-		} else if (seconds === 0) {
-			setMinutes((minute) => minute - 1);
-			setSecond(59);
-		} else {
-			setSecond((second) => second - 1);
-		}
-	};
-	const muteAlarm = () => {
-		alarmRef.current.pause();
-		alarmRef.current.currentTime = 0;
-	};
-
-	const startTimer = () => {
-		setIsTimeUp(false);
-		muteAlarm();
-		setTicking((ticking) => !ticking);
-	};
-
-	useEffect(() => {
-		window.onbeforeunload = () => {
-			return consumedSecond ? "Show waring" : null;
-		};
-
-		const timer = setInterval(() => {
-			if (ticking) {
-				setConsumedSecond((value) => value + 1);
-				clockTicking();
-			}
-		}, 1000);
-
-		return () => {
-			clearInterval(timer);
-		};
-	}, [seconds, pomodoro, shortBreak, longBreak, ticking]);
-
-	return (
-		<div className="bg-gray-900 min-h-screen font-inter">
-			<div className="max-w-2xl min-h-screen mx-auto">
-				<Navigation setOpenSetting={setOpenSetting} />
-				<Timer
-					stage={stage}
-					switchStage={switchStage}
-					getTickingTime={getTickingTime}
-					seconds={seconds}
-					ticking={ticking}
-					startTimer={startTimer}
-					muteAlarm={muteAlarm}
-					isTimeUp={isTimeUp}
-					reset={reset}
-				/>
-				{/* <About /> */}
-				<Alarm ref={alarmRef} />
-				<ModalSetting
-					openSetting={openSetting}
-					setOpenSetting={setOpenSetting}
-					pomodoroRef={pomodoroRef}
-					shortBreakRef={shortBreakRef}
-					longBreakRef={longBreakRef}
-					updateTimeDefaultValue={updateTimeDefaultValue}
-				/>
-			</div>
-		</div>
-	);
 }

@@ -12,10 +12,11 @@ export default {
     animation: {
         'sparkle-anim': 'sparkle 1s forwards',
         'bubbles-anim': 'bubbles 15s linear infinite',
-        'fishes-left-anim': '20s linear 15s infinite fishes-left',
-        'fishes-right-anim': '15s linear 10s infinite fishes-right',
+        'fishes-left-anim': 'linear 15s infinite fishes-left',
+        'fishes-right-anim': 'linear 20s infinite fishes-right',
         'wiggle-1-anim': 'wiggle 30s infinite',
-        'wiggle-2-anim': 'wiggle 45s infinite'
+        'wiggle-2-anim': 'wiggle 45s infinite',
+        'rotate-anim': 'rotate 10s infinite'
     },
     keyframes: {
         sparkle: {
@@ -81,6 +82,14 @@ export default {
             "75%": {
                 transform: "translateX(-2px) ",
             },
+        },
+        "rotate": {
+            "0%": {
+                transform: "rotate(0deg)"
+            },
+            "100%": {
+                transform: "rotate(360deg)"
+            }
         }
     }
   },

@@ -2,58 +2,70 @@ import React from "react";
 import { FiBellOff } from "react-icons/fi";
 
 export default function Timer({
-	stage,
-	switchStage,
-	getTickingTime,
-	seconds,
-	ticking,
-	startTimer,
-	isTimeUp,
-	muteAlarm,
-	reset,
+  stage,
+  switchStage,
+  getTickingTime,
+  seconds,
+  ticking,
+  startTimer,
+  isTimeUp,
+  muteAlarm,
+  reset,
+}: {
+  stage: 0 | 1 | 2;
+  switchStage: (index: 0 | 1 | 2) => void;
+  getTickingTime: () => number;
+  seconds: number;
+  ticking: boolean;
+  startTimer: () => void;
+  isTimeUp: boolean;
+  muteAlarm: () => void;
+  reset: () => void;
 }) {
-	const options = ["Pomodoro", "Short Break", "Long Break"];
-	return (
-		<div className="w-10/12 mx-auto pt-5 text-white flex flex-col justify-center items-center mt-10">
-			<div className="flex gap-5 items-center">
-				{options.map((option, index) => {
-					return (
-						<h1
-							key={index}
-							className={` ${
-								index === stage ? "bg-gray-500 bg-opacity-30" : ""
-							} p-1 cursor-pointer transition-all rounded`}
-							onClick={() => switchStage(index)}
-						>
-							{option}
-						</h1>
-					);
-				})}
-			</div>
-			<div className="mt-10 mb-10">
-				<h1 className="text-8xl font-bold select-none m-0">
-					{getTickingTime()}:{seconds.toString().padStart(2, "0")}
-				</h1>
-			</div>
-			<div className="flex gap-2 items-center">
-				<button
-					className="px-16 py-2 text-2xl rounded-md bg-white text-blue-500 uppercase font-bold"
-					onClick={startTimer}
-				>
-					{ticking ? "Stop" : "Start"}
-				</button>
-				{isTimeUp && (
-					<FiBellOff
-						className="text-3xl text-white cursor-pointer"
-						onClick={muteAlarm}
-					/>
-				)}
-			</div>
-			{ticking && (
-				<button className="uppercase text-white underline mt-5" onClick={reset}>
-					Reset
-				</button>
-			)}
-		</div>
-	);
+  const options = ["Pomodoro", "Short Break", "Long Break"];
+  return (
+    <div className="mx-auto flex flex-col items-end justify-center rounded-full text-white">
+      <div className="mt-5 flex items-center gap-4">
+        {options.map((option, index) => {
+          return (
+            <h1
+              key={index}
+              className={`${
+                index === stage ? "bg-black/25 bg-opacity-30" : ""
+              } cursor-pointer rounded p-1 transition-all`}
+              onClick={() => switchStage(index as 0 | 1 | 2)}
+            >
+              {option}
+            </h1>
+          );
+        })}
+      </div>
+      <div className="my-6">
+        <h1 className="m-0 select-none text-8xl font-bold">
+          {getTickingTime()}:{seconds.toString().padStart(2, "0")}
+        </h1>
+      </div>
+      <div className="flex justify-center gap-4">
+        <div className="flex items-center gap-2">
+          <button
+            className="rounded-md bg-white px-16 py-2 text-2xl font-bold uppercase text-blue-500"
+            onClick={startTimer}
+          >
+            {ticking ? "Stop" : "Start"}
+          </button>
+          {isTimeUp && (
+            <FiBellOff
+              className="cursor-pointer text-3xl text-white"
+              onClick={muteAlarm}
+            />
+          )}
+        </div>
+        {ticking && (
+          <button className="uppercase text-white underline" onClick={reset}>
+            Reset
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
