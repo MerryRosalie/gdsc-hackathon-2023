@@ -34,7 +34,7 @@ export type SidebarData = {
 export default function HomePage() {
   const defaultText =
     "Every 1 minute, a coin is incremented once. These coins can be used to gacha (which costs 5 coins). Refreshes reset this.";
-  const [coins, setCoins] = useState(0);
+  const [coins, setCoins] = useState(10);
   const [text, setText] = useState(defaultText);
   const [animals, setAnimals] = useState<StaticImageData[]>([]);
   const [timerActive, setTimerActive] = useState<boolean>(false);
