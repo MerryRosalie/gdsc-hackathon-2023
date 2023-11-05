@@ -2,27 +2,23 @@
 import { useContext } from "react";
 import Background from "~/components/Background";
 
-// import CountDownSvg from "./CountDownSvg";
-
-// export default function HomePage() {
-//   return (
-//     <main className="min-w-screen relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-[#5155c1] to-[#041d56]">
-//       {/* Background materials */}
-//       <Background />
-//     </main>
-//   );
-// }
-
-
-
 import React, { useEffect, useRef, useState } from "react";
-// import About from "../components/About";
 import Alarm from "../components/Alarm";
 import ModalSetting from "../components/ModalSetting";
 import Navigation from "../components/Navigation";
 import Timer from "../components/Timer";
 
-export default function index() {
+export default function HomePage() {
+  return (
+    <main className="min-w-screen relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-[#5155c1] to-[#041d56]">
+      {/* Background materials */}
+      <Background />
+    </main>
+  );
+}
+
+
+export function Pomodoro() {
 	const [pomodoro, setPomodoro] = useState(25);
 	const [shortBreak, setShortBreak] = useState(5);
 	const [longBreak, setLongBreak] = useState(10);
