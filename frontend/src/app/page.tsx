@@ -22,6 +22,7 @@ import {
 import Pomodoro from "~/components/PomodoroTimer";
 import Gacha from "~/components/Gacha";
 import { StaticImageData } from "next/image";
+import Video from "~/components/Video";
 
 export type SidebarData = {
   name: string;
@@ -138,6 +139,7 @@ export default function HomePage() {
       {todolistActive ? <TodoList /> : <></>}
       {notesActive ? <Note /> : <></>}
       {timerActive ? <Pomodoro /> : <></>}
+      {webcamActive ? <Video /> : <></>}
       <div className="absolute bottom-4 left-4 space-y-2 text-4xl font-bold text-white">
         <p>🪙 {coins} coins</p>
         <p className="w-3/4 text-sm font-normal text-white/50">{text}</p>

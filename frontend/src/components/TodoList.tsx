@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Draggable from "react-draggable";
 
 type todoItem = {
   id: number;
@@ -68,8 +69,8 @@ export default function TodoList() {
   }, []);
 
   return (
-    <div>
-      <div className="absolute right-0 top-0 h-1/3 w-80 space-y-6 overflow-y-auto rounded-lg p-6 text-white">
+    <Draggable>
+      <div className="absolute right-0 top-0 h-1/3 w-80 cursor-pointer space-y-6 overflow-y-auto rounded-lg p-6 text-white">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold">To-do List</h1>
           <button onClick={addTodos}>+ Create New Task</button>
@@ -101,6 +102,6 @@ export default function TodoList() {
           ))}
         </div>
       </div>
-    </div>
+    </Draggable>
   );
 }

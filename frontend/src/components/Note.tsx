@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Draggable from "react-draggable";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -22,12 +23,16 @@ export default function Editor() {
     ],
   };
   return (
-    <ReactQuill
-      value={text}
-      onChange={handleChange}
-      modules={modules}
-      theme="snow"
-      className="absolute right-[336px] top-4 h-1/3 w-72 overflow-y-auto bg-white"
-    />
+    <Draggable>
+      <div className="absolute right-[336px] top-4">
+        <ReactQuill
+          value={text}
+          onChange={handleChange}
+          modules={modules}
+          theme="snow"
+          className="h-1/3 w-72 cursor-pointer overflow-y-auto bg-white"
+        />
+      </div>
+    </Draggable>
   );
 }
