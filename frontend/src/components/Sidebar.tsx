@@ -7,8 +7,9 @@ export default function Sidebar({ datas }: { datas: SidebarData[] }) {
     <div className="absolute min-h-screen px-4 py-8">
       {/* Timer */}
       <div className="space-y-8">
-        {datas.map((data: SidebarData) => (
+        {datas.map((data: SidebarData, index: number) => (
           <div
+            key={index}
             className="flex cursor-pointer flex-col items-center text-white"
             onClick={() => data.callback((prev) => !prev)}
           >
