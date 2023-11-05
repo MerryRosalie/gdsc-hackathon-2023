@@ -5,11 +5,9 @@ import FishesLeft from "~/components/FishesLeft";
 import FishesRight from "~/components/FishesRight";
 import Image, { StaticImageData } from "next/image";
 import noise from "assets/noise.png";
-import { random } from "~/utils/random";
-import { useRef } from "react";
+import { Animal } from "~/app/page";
 
-const Background = ({ animals }: { animals: StaticImageData[] }) => {
-  const topRef = useRef(`${random(0, 100)}%`);
+const Background = ({ animals }: { animals: Animal[] }) => {
   return (
     <div className="absolute  -z-10 min-h-full min-w-full">
       <Sparkles />
@@ -24,7 +22,7 @@ const Background = ({ animals }: { animals: StaticImageData[] }) => {
         alt="Noise"
       />
       <>
-        {animals.map((animal, index) => (
+        {animals.map((animal: Animal, index) => (
           <Image
             className={`${
               index % 2 == 0
@@ -32,11 +30,11 @@ const Background = ({ animals }: { animals: StaticImageData[] }) => {
                 : "-left-[20%] animate-fishes-right-anim"
             } absolute w-32`}
             key={index}
-            src={animal}
+            src={animal.animal}
             alt={`Animal ${index}`}
             objectFit="contain"
             style={{
-              top: topRef.current,
+              top: animal.top,
             }}
           />
         ))}

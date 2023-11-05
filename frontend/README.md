@@ -1,28 +1,29 @@
-# Create T3 App
+# 🤓 Nerd Station
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Nerd Station 🤓 is a web app that we thoughtfully designed to help university students overcome common hurdles that hinder their academic progress. It has a diverse range of features where each demonstrates a strategy to help students overcome the lack of motivation assosciated with uni work.
 
-## What's next? How do I make an app with this?
+## How to run?
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Deployed webapp
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+You can access our deployed webapp [here](https://gdsc-hackathon-2023.web.app/).
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### How to run locally
 
-## Learn More
+Go to the frontend directory, and install all the dependencies. Finally, run it locally with `npm run dev`.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```
+cd frontend
+npm install
+npm run dev
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## What's in it for the future?
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Contributing Members
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Christine Phung [Github](https://github.com/Christin322)
+- Esther Djaidiguna [Github](https://github.com/ashtherz)
+- Ethan Cao [Github](https://github.com/EKTC)
+- Khant Zarni [Github](https://github.com/Leo-Zarni01)
+- Merry Rosalie [Github](https://github.com/MerryRosalie)

@@ -31,12 +31,17 @@ export type SidebarData = {
   icon: ReactNode;
 };
 
+export type Animal = {
+  animal: StaticImageData;
+  top: string;
+};
+
 export default function HomePage() {
   const defaultText =
     "Every 1 minute, a coin is incremented once. These coins can be used to gacha (which costs 5 coins). Refreshes reset this.";
   const [coins, setCoins] = useState(10);
   const [text, setText] = useState(defaultText);
-  const [animals, setAnimals] = useState<StaticImageData[]>([]);
+  const [animals, setAnimals] = useState<Animal[]>([]);
   const [timerActive, setTimerActive] = useState<boolean>(false);
   const [todolistActive, setTodolistActive] = useState<boolean>(false);
   const [notesActive, setNotesActive] = useState<boolean>(false);

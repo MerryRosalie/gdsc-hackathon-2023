@@ -11,6 +11,8 @@ import starfish from "../../assets/starfish.gif";
 import turtle from "../../assets/turtle.gif";
 import whale from "../../assets/whale.gif";
 import Image, { StaticImageData } from "next/image";
+import { Animal } from "~/app/page";
+import { random } from "~/utils/random";
 
 export default function Gacha({
   gachaActive,
@@ -19,7 +21,7 @@ export default function Gacha({
 }: {
   gachaActive: boolean;
   setGachaActive: Dispatch<SetStateAction<boolean>>;
-  setAnimals: Dispatch<SetStateAction<StaticImageData[]>>;
+  setAnimals: Dispatch<SetStateAction<Animal[]>>;
 }) {
   const animals = [
     jellyfish,
@@ -31,11 +33,14 @@ export default function Gacha({
     turtle,
     whale,
   ];
-  const [animal, setAnimal] = useState<StaticImageData>();
+  const [animal, setAnimal] = useState<Animal>();
 
   useEffect(() => {
     const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-    setAnimal(randomAnimal);
+    setAnimal({
+      animal: randomAnimal as StaticImageData,
+      top: `${random(0, 100)}%`,
+    });
   }, [gachaActive]);
 
   return (
@@ -44,13 +49,13 @@ export default function Gacha({
         <div
           className="absolute left-0 top-0 min-h-screen min-w-full cursor-pointer bg-black/30"
           onClick={() => {
-            setAnimals((prev) => [...prev, animal] as StaticImageData[]);
+            setAnimals((prev) => [...prev, animal] as Animal[]);
             setGachaActive(false);
           }}
         >
           <Image className="animate-rotate-anim" src={shine} alt="Shine" fill />
           {animal && (
-            <Image objectFit="contain" fill src={animal} alt="Animal" />
+            <Image objectFit="contain" fill src={animal.animal} alt="Animal" />
           )}
         </div>
       )}
